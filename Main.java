@@ -1,41 +1,54 @@
-import java.util.Scanner;
-import java.io.FileInputStream;
+//https://www.acmicpc.net/problem/5397
 
-/*
-   사용하는 클래스명이 Solution 이어야 하므로, 가급적 Solution.java 를 사용할 것을 권장합니다.
-   이러한 상황에서도 동일하게 java Solution 명령으로 프로그램을 수행해볼 수 있습니다.
- */
- //너 목소리 안 들려--
-// 안들리긴 한데,,, 되게 끊겨들려영
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Stack;
 
+class Main {
+  public static void main(String args[]) throws NumberFormatException, IOException {
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    int N = Integer.parseInt(br.readLine());
 
-class Main
-{
-	public static void main(String args[]) 
-	{
-		Scanner sc = new Scanner(System.in);
-		int N =sc.nextInt();
-    int[] arr=new int[N*2];
-    int Q1 =0;
-    int Q2 = 0;
-    int Q3 = 0;
-    int Q4  = 0;
-    int A,B;
-    for(int i = 0; i<N; i++){
-      arr[=sc.nextInt();
-      if(arr[i] >= 0 && arr[i+1]>= 0){
+    String pwd;
 
+    for (int i = 0; i < N; i++) {
+      pwd = br.readLine();
+      String password = gettingPwd(pwd);
+      System.out.println(password);
+    }
+  }
+
+  public static String gettingPwd(String pwd) {
+    StringBuilder st = new StringBuilder();
+    Stack<Character> front = new Stack<>();
+    Stack<Character> back = new Stack<>();
+
+    for (int i = 0; i < pwd.length(); i++) {
+      switch (pwd.charAt(i)) {
+        case '<':
+          if (!front.isEmpty())
+            back.push(front.pop());
+          break;
+        case '>':
+          if (!back.isEmpty())
+            front.push(back.pop());
+          break;
+        case '-':
+          if (!front.isEmpty())
+            front.pop();
+          break;
+        default:
+          front.push(pwd.charAt(i));
+          break;
       }
     }
-    int result = 0;
-    result = fibo(N-1);
-    System.out.println(result);
-
-	}
-  public static int fibo(int n) {
-    if(n<=1){
-      return 1; 
+    while (!back.isEmpty()) {
+      front.push(back.pop());
     }
-    return fibo(n-1)+fibo(n-2);
+    for (int i = 0; i < front.size(); i++) {
+      st.append(front.elementAt(i));
+    }
+    return st.toString();
   }
 }

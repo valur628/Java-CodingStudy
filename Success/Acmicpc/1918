@@ -1,0 +1,51 @@
+//https://www.acmicpc.net/problem/1918
+
+import java.util.Scanner;
+import java.util.Stack;
+
+class Main
+{
+	public static void main(String args[]) 
+	{
+		Scanner sc = new Scanner(System.in);
+		StringBuilder sb = new StringBuilder();
+
+    Stack<Character> stack = new Stack<>();
+
+    char[] N = sc.nextLine().toCharArray();
+    
+    for(int i = 0; i<N.length; i++){
+      if(N[i]>='A'&&N[i]<='Z'){
+        sb.append(N[i]+"");
+      }
+      else {
+        if(N[i]=='('){
+          stack.push(N[i]);
+        }
+        else if(N[i] == ')'){
+          while(stack.isEmpty()!= true && stack.peek() != '('){
+            sb.append(stack.pop());
+          }
+          if(stack.isEmpty()!=true) stack.pop();
+        }
+        else{
+          while(stack.isEmpty()!=true && opgrade(stack.peek()) >= opgrade(N[i])){
+            sb.append(stack.pop());
+          }
+          stack.push(N[i]);
+        }
+      }
+    }
+  while(stack.empty() != true){
+    sb.append(stack.pop());
+  }
+    System.out.println(sb);
+  } 
+  public static int opgrade(char op) {
+    if(op == '*' || op == '/') return 2;
+    else if(op== '+' || op == '-') return 1;
+    else return 0;
+  }
+  
+}
+

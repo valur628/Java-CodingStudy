@@ -1,0 +1,46 @@
+//https://www.acmicpc.net/problem/1935
+
+import java.util.Scanner;
+import java.util.Stack;
+
+class Main
+{
+	public static void main(String args[]) 
+	{
+		Scanner sc = new Scanner(System.in);
+		StringBuilder sb = new StringBuilder();
+
+    Stack<Double> stack = new Stack<>();
+
+    int N = Integer.parseInt(sc.nextLine());
+    String input = sc.nextLine();
+    double[] items = new double[N];
+
+    for(int i = 0; i< N ; i++){
+      items[i] = sc.nextInt();
+    }
+    
+    for(int i = 0; i<input.length(); i++){
+      char ch = input.charAt(i);
+      if(ch>='A'&&ch<='Z'){
+        stack.push(items[ch-'A']);
+      }
+      else if (ch == '*'){
+        stack.push(stack.pop()*stack.pop());
+      }
+      else if (ch == '/'){
+        double tmp = stack.pop();
+        stack.push(stack.pop()/tmp);
+      }
+      else if (ch == '+') {
+        stack.push(stack.pop()+stack.pop());
+      }
+      else if (ch == '-') {
+        Double tmp = stack.pop();
+        stack.push(stack.pop()-tmp);
+      }
+    }
+    System.out.printf("%.2f",stack.peek());
+  } 
+}
+

@@ -1,0 +1,50 @@
+//https://www.acmicpc.net/problem/2606
+
+import java.io.*;
+import java.util.*;
+
+class Main {
+  static int[][] check;
+  static boolean[] checked;
+  static int n;
+  static int m;
+  static int cnt = 0;
+  static int start = 1;
+
+  public static void main(String args[]) {
+    Scanner sc = new Scanner(System.in);
+    n = sc.nextInt();
+    m = sc.nextInt();
+
+    check = new int[n+1][n+1];
+    checked = new boolean[n+1];
+
+    for(int i = 0; i < m; i++){
+      int x = sc.nextInt();
+      int y = sc.nextInt();
+
+      check[x][y] = check[y][x] = 1;   
+    }
+
+    bfs();
+  }
+
+  static void bfs(){
+    Queue<Integer> queue = new LinkedList<Integer>();
+    queue.offer(start);
+    checked[start] = true;
+
+    while(!queue.isEmpty()){
+      int temp = queue.poll();
+      for(int j = 1; j <= n; j++){
+        if(check[temp][j] == 1 && !checked[j]){
+          queue.offer(j);
+          checked[j] = true;
+          cnt++;
+          System.out.println("test");
+        }
+      }
+    }
+    System.out.println(cnt);
+  }
+}

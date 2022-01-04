@@ -1,45 +1,78 @@
-//https://www.acmicpc.net/problem/11725
+//https://www.acmicpc.net/problem/1991
 import java.util.*;
+import java.io.*;
 
-public class Main {
-	static int[] parents;
-	static List<Integer>[] list;
-	static boolean[] visit;
-	static int n;
-	
-	public static void dfs(int n) {
-		visit[n] = true;
-		for(int i : list[n]) {
-			if(!visit[i]) {
-				parents[i] = n;
-				dfs(i);
-			}
-		}
+
+class Node {
+	int left, right;
+	public Node(int left, int right) {
+		this.left = left;
+		this.right = right;
 	}
+}
+public class Main {
 	
-	public static void main(String args[]) {
-		Scanner sc = new Scanner(System.in);
-		int N = sc.nextInt();
+	static List<Node>[] list;
+	static StringBuilder sbuilder = new StringBuilder();
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st;
+		int N = Integer.parseInt(br.readLine());
 		
 		list = new ArrayList[N+1];
-		parents = new int[N+1];
-		
-		for(int i = 1; i <= N; i++) {
+		for(int i = 1; i < N+1; i++) {
 			list[i] = new ArrayList<>();
 		}
 		
-		visit = new boolean[N+1];
-		for(int i = 0; i < N -1; i++) {
-			int a = sc.nextInt();
-			int b = sc.nextInt();
-			list[a].add(b);
-			list[b].add(a);
+		for(int i = 1; i < N + 1; i++) {
+			String[] line = br.readLine().split(" ");
+			int data = line[0].charAt(0)-'A'+1;
+			int left = line[1].charAt(0)-'A'+1;
+			int right = line[2].charAt(0)-'A'+1;
+			list[data].add(new Node(left, right));
 		}
 		
-		dfs(1);
-		for(int i = 2; i <= N; i++) {
-			System.out.println(parents[i]);
+		preorder(1);
+		sbuilder.append("\n");
+		inorder(1);
+		sbuilder.append("\n");
+		postorder(1);
+		System.out.println(sbuilder.toString());
+		
+	}
+	
+	static void preorder(int n) {
+		for(Node node:list[n]) {
+			int l = node.left;
+			int r = node.right;
+			
+			sbuilder.append((char)(n+'A'-1));
+			if(l!=-18) preorder(l);
+			if(r!=-18) preorder(r);
 		}
 	}
-
+	
+	static void inorder(int n) {
+		for(Node node:list[n]) {
+			int l = node.left;
+			int r = node.right;
+			
+			if(l!=-18) inorder(l);
+			sbuilder.append((char)(n+'A'-1));
+			if(r!=-18) inorder(r);
+		}
+	}
+	
+	static void postorder(int n) {
+		for(Node node:list[n]) {
+			int l = node.left;
+			int r = node.right;
+			
+			
+			if(l!=-18) postorder(l);
+			if(r!=-18) postorder(r);
+			sbuilder.append((char)(n+'A'-1));
+		}
+	}
 }
+

@@ -1,0 +1,38 @@
+//디스코드에 올라와서 그곳에 푼 문제입니다.
+package dataStructure;
+import java.util.Scanner;
+
+public class Baek2750 {
+    public static void main(String[] args) {
+        int N, temp;
+
+        Scanner sc = new Scanner(System.in);
+        N=sc.nextInt();
+        int arr[] = new int[N];
+
+        int i = 0;
+        while(i < N)
+        {
+          arr[i] = sc.nextInt();
+          i++;
+        }
+
+        for(i = 0; i < N; i++ ) {
+            for(int j = 0; j < (N-1); j++) {
+                if (arr[j]>arr[j+1]) {
+                    temp = arr[j];
+                    arr[j] = arr[j+1];
+                    arr[j+1] = temp;
+                }
+            }
+        }
+
+
+        for(i = 0; i<N;i++) {
+            System.out.println(arr[i]);
+        }
+
+
+
+    }
+}

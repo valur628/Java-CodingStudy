@@ -1,0 +1,39 @@
+#include <iostream>
+#include <list>
+#include <string>
+#include <algorithm>
+using namespace std;
+
+int main()
+{
+	int N;
+	cin >> N;
+	while (N--) {
+		list<char> r;
+		string str;
+		cin >> str;
+		auto it = r.begin();
+
+		for (int i = 0; i < str.size(); i++) {
+			if (str[i] == '<') {
+				if (it != r.begin()) it--;
+			}
+			else if (str[i] == '>') {
+				if (it != r.end()) it++;
+			}
+			else if (str[i] == '-') {
+				if (!r.empty() && it != r.begin())
+					it = r.erase(--it);
+			}
+			else {
+				r.insert(it,str[i]);
+			}
+		}
+
+		for (auto it = r.begin(); it != r.end(); it++)
+			cout << *it;
+
+		cout << "\n";
+		r.clear();
+	}
+}
